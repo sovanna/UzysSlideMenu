@@ -243,7 +243,7 @@
                     UzysSMMenuItemView *itemView = obj;
                     itemView.alpha = 1;
                     itemView.frame = itemView.targetFrame;
-                    itemView.backgroundView.alpha = 0.7;
+                    itemView.backgroundView.alpha = 0.85;
                     itemView.label.alpha = 1;
                     itemView.seperatorView.alpha = 1;
                     
@@ -264,7 +264,7 @@
             itemView.targetFrame = CGRectMake(0, itemView.bounds.size.height*idx, itemView.bounds.size.width, itemView.bounds.size.height);
             itemView.alpha = 1;
             itemView.frame = itemView.targetFrame;
-            itemView.backgroundView.alpha = 0.7;
+            itemView.backgroundView.alpha = 0.85;
             itemView.label.alpha = 1;
             itemView.seperatorView.alpha = 1;
             
