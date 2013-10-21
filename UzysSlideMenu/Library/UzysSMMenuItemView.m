@@ -80,7 +80,6 @@
 
 - (void)gestureTapped:(UIGestureRecognizer *)sender{
     if (sender.state == UIGestureRecognizerStateEnded) {
-        NSLog(@"tapped");
         if (_item.block) {
             if([self.delegate respondsToSelector:@selector(UzysSMMenuItemDidAction:)] && self.delegate)
             {
