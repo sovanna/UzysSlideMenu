@@ -15,39 +15,16 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-
     }
     return self;
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //Add something to make some highlighted effect
-}
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
-
-}
-
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    //Add something to make some highlighted effect
-}
-
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    //Add something to make some highlighted effect
-    if (_item.block) {
-        
-        if([self.delegate respondsToSelector:@selector(UzysSMMenuItemDidAction:)] && self.delegate)
-        {
-            [self.delegate UzysSMMenuItemDidAction:self];
-        }
-        _item.block(_item);
-    }
+    [self callItemAction];
 }
 
--(void)setItem:(UzysSMMenuItem *)item
+- (void)setItem:(UzysSMMenuItem *)item
 {
     [_item release];
     _item = [item ah_retain];
@@ -65,28 +42,41 @@
     [super ah_dealloc];
 }
 
+#pragma mark - Functions
+
+- (void)callItemAction
+{
+    if (_item.block) {
+        BOOL isRespondAction = [self.delegate
+                                respondsToSelector:@selector(UzysSMMenuItemDidAction:)];
+        
+        if (isRespondAction && self.delegate) {
+            [self.delegate UzysSMMenuItemDidAction:self];
+        }
+        _item.block(_item);
+    }
+}
+
 #pragma mark - using gestureRecognizer
--(void)awakeFromNib
+
+- (void)awakeFromNib
 {
     [super awakeFromNib];
-    UITapGestureRecognizer *tapGesture;
-    tapGesture = [[[UITapGestureRecognizer alloc] initWithTarget:self
-                                                          action:@selector(gestureTapped:)] autorelease];
-    tapGesture.delegate = self;
-    tapGesture.numberOfTapsRequired = 1;
-    self.imageView.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *tapGesture = [[[UITapGestureRecognizer alloc]
+                                           initWithTarget:self
+                                           action:@selector(gestureTapped:)] autorelease];
+    [tapGesture setDelegate:self];
+    [tapGesture setNumberOfTapsRequired:1];
+    
+    [self.imageView setUserInteractionEnabled:YES];
     [self.imageView addGestureRecognizer:tapGesture];
 }
 
-- (void)gestureTapped:(UIGestureRecognizer *)sender{
+- (void)gestureTapped:(UIGestureRecognizer *)sender
+{
     if (sender.state == UIGestureRecognizerStateEnded) {
-        if (_item.block) {
-            if([self.delegate respondsToSelector:@selector(UzysSMMenuItemDidAction:)] && self.delegate)
-            {
-                [self.delegate UzysSMMenuItemDidAction:self];
-            }
-            _item.block(_item);
-        }
+        [self callItemAction];
     }
 }
 @end
