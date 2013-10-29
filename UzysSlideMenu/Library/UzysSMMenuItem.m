@@ -37,6 +37,6 @@
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"Title:%@, tag:%d",self.title,self.tag];
+    return [NSString stringWithFormat:@"Title:%@, tag:%ld",self.title,(long)self.tag];
 }
 @end
