@@ -22,7 +22,9 @@ typedef enum _UzysSMState {
 @property (nonatomic, readonly) UzysSMState menuState;
 
 - (id)initWithItems:(NSArray *)items;
-- (id)initWithItems:(NSArray *)items andState:(UzysSMState)defaultState;
+- (id)initWithItems:(NSArray *)items
+              state:(UzysSMState)defaultState
+       andMainTitle:(NSString *)mainTitle;
 - (void)toggleMenuWithCompletion:(void(^)(UzysSMState state))block;
 - (void)openIconMenu;
 - (CGRect)getMainIconFrame:(UIView *)view;

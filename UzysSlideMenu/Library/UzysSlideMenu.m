@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSMutableArray *itemViews;
 @property (nonatomic, assign) UzysSMState state;
 
--(void)setupLayout;
+-(void)setupLayoutWithTitle:(NSString *)title;
 @end
 
 @implementation UzysSlideMenu
@@ -29,13 +29,15 @@
         self.itemViews = [NSMutableArray array];
         self.state = STATE_ICON_MENU;
         
-        [self setupLayout];
+        [self setupLayoutWithTitle:nil];
         [self showIconMenu:NO];
     }
     return self;
 }
 
-- (id)initWithItems:(NSArray *)items andState:(UzysSMState)defaultState
+- (id)initWithItems:(NSArray *)items
+            state:(UzysSMState)defaultState
+       andMainTitle:(NSString *)mainTitle
 {
     self = [super init];
     if (self) {
@@ -45,7 +47,7 @@
         self.itemViews = [NSMutableArray array];
         self.state = defaultState;
         
-        [self setupLayout];
+        [self setupLayoutWithTitle:mainTitle];
         
         switch (defaultState) {
             case STATE_MAIN_MENU:
@@ -72,7 +74,7 @@
     [super ah_dealloc];
 }
 
--(void)setupLayout
+- (void)setupLayoutWithTitle:(NSString *)title
 {
     UzysSMMenuItemView *itemView = [[[NSBundle mainBundle]
                                      loadNibNamed:@"UzysSMMenuItemView"
@@ -107,8 +109,19 @@
         [self addSubview:itemView];
         [self sendSubviewToBack:itemView];
         [self.itemViews addObject:itemView];
-        
     }];
+    
+    if (title) [self setupMainTitle:title];
+}
+
+- (void)setupMainTitle:(NSString *)title
+{
+    UILabel *label = [[UILabel alloc] init];
+    [label setFrame:CGRectMake(5, 0, self.frame.size.width-5, 45.0)];
+    [label setBackgroundColor:[UIColor clearColor]];
+    [label setText:title];
+    [label setTextColor:[UIColor whiteColor]];
+    [self addSubview:label];
 }
 
 - (void)openIconMenu
