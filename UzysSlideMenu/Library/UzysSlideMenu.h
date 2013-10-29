@@ -18,13 +18,12 @@ typedef enum _UzysSMState {
 
 @interface UzysSlideMenu : UIView <UzysSMMenuItemViewActionDelegate>
 
-@property (nonatomic,strong) NSArray *pItems;
-@property (nonatomic,readonly) UzysSMState menuState;
+@property (nonatomic, strong) NSArray *pItems;
+@property (nonatomic, readonly) UzysSMState menuState;
+
 - (id)initWithItems:(NSArray *)items;
-- (void)toggleMenu;
+- (id)initWithItems:(NSArray *)items andState:(UzysSMState)defaultState;
 - (void)toggleMenuWithCompletion:(void(^)(UzysSMState state))block;
 - (void)openIconMenu;
-
-
 - (CGRect)getMainIconFrame:(UIView *)view;
 @end
