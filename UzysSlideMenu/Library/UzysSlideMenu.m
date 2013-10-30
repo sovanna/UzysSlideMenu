@@ -76,9 +76,7 @@
 
 - (void)setupLayoutWithTitle:(NSString *)title
 {
-    UzysSMMenuItemView *itemView = [[[NSBundle mainBundle]
-                                     loadNibNamed:@"UzysSMMenuItemView"
-                                     owner:self options:nil] lastObject];
+    UzysSMMenuItemView *itemView = [self setupItemViewModel];
     
     CGFloat menuHeight = itemView.bounds.size.height * [_pItems count];
     CGFloat menuWidth = itemView.bounds.size.width;
@@ -86,9 +84,7 @@
     [self setFrame:CGRectMake(0, 0, menuWidth, menuHeight)];
 
     [self.pItems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        UzysSMMenuItemView *itemView = [[[NSBundle mainBundle]
-                                         loadNibNamed:@"UzysSMMenuItemView"
-                                         owner:self options:nil] lastObject];
+        UzysSMMenuItemView *itemView = [self setupItemViewModel];
         
         itemView.frame = CGRectMake(0,
                                     0,
@@ -112,6 +108,22 @@
     }];
     
     if (title) [self setupMainTitle:title];
+}
+
+- (UzysSMMenuItemView *)setupItemViewModel
+{
+    UzysSMMenuItemView *itemView = nil;
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        itemView = [[[NSBundle mainBundle]
+                     loadNibNamed:@"UzysSMMenuItemView"
+                     owner:self options:nil] lastObject];
+    } else {
+        itemView = [[[NSBundle mainBundle]
+                     loadNibNamed:@"UzysSMMenuItemViewIPAD"
+                     owner:self options:nil] lastObject];
+    }
+    
+    return itemView;
 }
 
 - (void)setupMainTitle:(NSString *)title
